@@ -96,7 +96,7 @@ const AnalysisPage = () => {
           transform: shouldHide ? 'scale(0.95)' : 'scale(1)'
         }}
       >
-       <div className="flex items-center justify-between p-2 xs:p-3 sm:p-4 border-b border-opacity-10 border-gray-200">
+        <div className="flex items-center justify-between p-2 xs:p-3 sm:p-4 border-b border-opacity-10 border-gray-200">
           <div className="flex items-center gap-1 xs:gap-2 text-xs xs:text-sm sm:text-base font-medium text-gray-700">
             <span className="text-primary">{icon}</span>
             {title}
@@ -114,7 +114,7 @@ const AnalysisPage = () => {
         </div>
         <div
           className={`p-2 xs:p-3 sm:p-4 ${isExpanded ? 'h-[calc(100%-60px)] overflow-y-auto' :
-              'h-[calc(100%-40px)] xs:h-[calc(100%-44px)] sm:h-[calc(100%-56px)] custom-scrollbar'
+            'h-[calc(100%-40px)] xs:h-[calc(100%-44px)] sm:h-[calc(100%-56px)] custom-scrollbar'
             }`}
           style={{ overflowY: 'auto' }}
         >
@@ -168,7 +168,7 @@ const AnalysisPage = () => {
       {/* Top row with 4 equal cards */}
       <div className={`grid grid-cols-1 gap-3 xs:gap-4 sm:gap-5 md:gap-6 sm:grid-cols-2 lg:grid-cols-4 ${expandedCard ? 'z-0' : ''}`}>
         <Card id="applications" title="Applications Received" icon={<FiUsers className="h-4 w-4 sm:h-5 sm:w-5" />}>
-          <ApplicationReceived totalApplications={totalApplications} months={months} />
+          <ApplicationReceived isExpanded={expandedCard === "applications"} />
         </Card>
 
         <Card id="positions" title="Top Job Positions" icon={<FiBriefcase className="h-4 w-4 sm:h-5 sm:w-5" />}>

@@ -7,23 +7,25 @@ ChartJS.register(ArcElement, Tooltip);
 
 const SourceOfApplication = () => {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get("/analytic/metrics");
+        setLoading(true);
+        const response = await api.get("/analytic/graphs/source");
         
-        // Extract the breakdown of sources
-        const sourceData = response.data.internalExternalHires.breakdown
-          .filter(item => item.applied_source) // Filter out null sources
-          .map(item => ({
-            source: item.applied_source,
-            value: parseFloat(item.rate.toFixed(2))
-          }));
-        
-        setData(sourceData);
+        if (response.data && response.data.source) {
+          setData(response.data.source);
+        } else {
+          setError("No source data available");
+        }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching source data:", error);
+        setError("Failed to load source data");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -64,6 +66,30 @@ const SourceOfApplication = () => {
     },
   };
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-[300px]">
+        <p className="text-gray-500">Loading source data...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-[300px]">
+        <p className="text-red-500">{error}</p>
+      </div>
+    );
+  }
+
+  if (data.length === 0) {
+    return (
+      <div className="flex items-center justify-center h-[300px]">
+        <p className="text-gray-500">No source data available</p>
+      </div>
+    );
+  }
+
   return (
     <>
       <h3 className="mb-4 text-center text-sm text-gray-600">
@@ -80,7 +106,7 @@ const SourceOfApplication = () => {
             <div
               className="h-3 w-3 rounded-full"
               style={{
-                backgroundColor: chartData.datasets[0].backgroundColor[index],
+                backgroundColor: chartData.datasets[0].backgroundColor[index % chartData.datasets[0].backgroundColor.length],
               }}
             />
             <span className="text-sm text-gray-700">{entry.source}</span>

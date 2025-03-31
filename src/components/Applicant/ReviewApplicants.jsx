@@ -1,4 +1,3 @@
-
 import { useEffect } from "react"
 import { FaExclamationTriangle, FaTimes, FaChevronLeft, FaChevronRight } from "react-icons/fa"
 
@@ -169,4 +168,3 @@ function ReviewApplicants({ applicants, currentIndex, onNext, onPrevious, onAcce
 }
 
 export default ReviewApplicants
-

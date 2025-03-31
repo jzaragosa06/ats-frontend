@@ -239,7 +239,7 @@ function AddApplicantForm({ onClose, initialData, onEditSuccess }) {
 
   // Modify handleSubmit
   const handleSubmit = async (e) => {
-    e.preventDefault()
+  e.preventDefault()
     setPendingSubmit(true)
     setModalType('submit')
     setShowConfirmationModal(true)
