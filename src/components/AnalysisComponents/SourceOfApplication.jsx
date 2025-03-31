@@ -11,19 +11,16 @@ const SourceOfApplication = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get("/analytic/metrics");
+        const response = await api.get("/analytic/graphs/source");
         
-        // Extract the breakdown of sources
-        const sourceData = response.data.internalExternalHires.breakdown
-          .filter(item => item.applied_source) // Filter out null sources
-          .map(item => ({
-            source: item.applied_source,
-            value: parseFloat(item.rate.toFixed(2))
-          }));
+        // Extract the source data directly from the response
+        if (response.data && response.data.source) {
+          setData(response.data.source);
+        }
         
-        setData(sourceData);
+        console.log("Source data fetched:", response.data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching source data:", error);
       }
     };
 
@@ -80,11 +77,11 @@ const SourceOfApplication = () => {
             <div
               className="h-3 w-3 rounded-full"
               style={{
-                backgroundColor: chartData.datasets[0].backgroundColor[index],
+                backgroundColor: chartData.datasets[0].backgroundColor[index % 5],
               }}
             />
             <span className="text-sm text-gray-700">{entry.source}</span>
-            <span className="ml-auto text-sm font-medium">{entry.value}%</span>
+            <span className="ml-auto text-sm font-medium">{entry.value}</span>
           </div>
         ))}
       </div>
